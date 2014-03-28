@@ -1,0 +1,10 @@
+<div>
+    Photos
+    <div ng-repeat="photo in photos">
+		<div class="thumbnail" style="background:#ECF0F1" ng-click="isClicked()">
+			<img class="img-rounded" ng-src="{{ photo.url}}" alt="..." style="width:260px; height:200px;">
+        <div class="caption"></div>
+		</div>
+	</div>
+	<button ng-click="debug()">Debug</button>
+</div>
