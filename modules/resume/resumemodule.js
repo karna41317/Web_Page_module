@@ -6,8 +6,9 @@
 'use strict';
 angular.module('resume',[])
 
-.controller('ResumeViewCtrl',[ function($scope) {
+.controller('ResumeViewCtrl',function($scope) {
+    event.preventDefault();
   return $scope.awesomeThings = ['HTML5 Boilerplate', 'AngularJS', 'Karma'];
-}]);
+});
 
 

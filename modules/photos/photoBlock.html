@@ -1,10 +1,11 @@
-<div>
-    Photos
-    <div ng-repeat="photo in photos">
-		<div class="thumbnail" style="background:#ECF0F1" ng-click="isClicked()">
-			<img class="img-rounded" ng-src="{{ photo.url}}" alt="..." style="width:260px; height:200px;">
-        <div class="caption"></div>
+<div class="row">
+    <div class="col-sm-6 col-md-4" ng-repeat="photo in photos">
+		<div class="thumbnail" style="background:#000405" ng-click="isClicked()">
+			<img class="img-rounded" ng-src="{{ photo.url}}" alt="..." style="width: 240px;height: 241px">
+			<div class="caption">
+				<p style="font-size:14px;font-family: cursive;;color: darkgoldenrod;padding-left: 100px; ">Title: {{ photo.title }}</p>
+
+			</div>
 		</div>
 	</div>
-	<button ng-click="debug()">Debug</button>
 </div>

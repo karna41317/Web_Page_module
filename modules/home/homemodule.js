@@ -9,22 +9,22 @@
 'use strict';
 angular.module('home',[])
 
-.controller('HomeViewCtrl', [function($scope) {
-  return $scope.awesomeThings = ['HTML5 Boilerplate', 'AngularJS', 'Karma'];
-}])
+.controller('HomeViewCtrl', function($scope) {
+  return $scope.hello='hello';	
+})
 
-.controller('navigationCtrl',[ function($scope, $location) {
+.controller('navigationCtrl',function($scope, $location) {
   return $scope.isActive = function(currentUrl) {
     return currentUrl === $location.$$path;
   };
-}])
+})
 
-.directive('navigation',[ function() {
+.directive('navigation',function() {
   return {
     restrict: 'E',
     scope: {},
     templateUrl: 'modules/home/navigation.html'
   };
-}]);
+});
 
 

@@ -7,66 +7,73 @@
 angular.module('photos',[])
 
 
-.factory('picasaService', ['$http', '$q', function($http, $q) {
-  // Service logic
+		.factory('picasaService', ['$http', '$q', function($http, $q) {
+				// Service logic
 
-  $http.defaults.useXDomain = true;
+				$http.defaults.useXDomain = true;
 
-  function parsePhoto(entry) {
-    var photo = {
-      url: entry.media$group.media$content[0].url
-    };
-    return photo;
-  }
+				function parsePhoto(entry) {
+//					var lastThumb = entry.media$group.media$thumbnail.length - 1;
+					var photo = {
+						url: entry.media$group.media$content[0].url,
 
-  function parsePhotos(url) {
-    var d = $q.defer();
-    var photo;
-    var photos = [];
-    loadPhotos(url).then(function(data) {
-      if (!data.feed) {
-        photos.push(parsePhoto(data.entry));
-      } else {
-        var entries = data.feed.entry;
-        for (var i = 0; i < entries.length; i++) {
-          photos.push(parsePhoto(entries[i]));
-        }
-      }
-      d.resolve(photos);
+//						thumb: entry.media$group.media$thumbnail[lastThumb].url,
+//						thumbHeight: entry.media$group.media$thumbnail[lastThumb].height,
+//						thumbWidth: entry.media$group.media$thumbnail[lastThumb].width,
+						title: entry.media$group.media$description.$t
 
-    });
-    return d.promise;
-  }
+					};
+					return photo;
+				}
 
-  function loadPhotos(url) {
-    var d = $q.defer();
-    $http.jsonp(url + '?alt=json&kind=photo&hl=pl&imgmax=912&callback=JSON_CALLBACK').success(function(data, status) {
-      d.resolve(data);
-    });
-    return d.promise;
-  }
+				function parsePhotos(url) {
+					var d = $q.defer();
+					var photo;
+					var photos = [];
+					loadPhotos(url).then(function(data) {
+						if (!data.feed) {
+							photos.push(parsePhoto(data.entry));
+						} else {
+							var entries = data.feed.entry;
+							for (var i = 0; i < entries.length; i++) {
+								photos.push(parsePhoto(entries[i]));
+							}
+						}
+						d.resolve(photos);
 
-  // Public API here
-  return {
-    get : function (url) {
-      return parsePhotos(url);
-    }
-  };
-}])
+					});
+					return d.promise;
+				}
 
-.directive('picasa', ['picasaService', function(picasaService) {
-    return {
-      restrict: 'E',
-      scope: {
-        url: '@'
-      },
-      controller: function($scope, picasaService){
-        $scope.photos = picasaService.get($scope.url).then(function(photos){
-          $scope.photos = photos;
-        });
+				function loadPhotos(url) {
+					var d = $q.defer();
+					$http.jsonp(url + '?alt=json&kind=photo&hl=pl&imgmax=912&callback=JSON_CALLBACK').success(function(data, status) {
+						d.resolve(data);
+					});
+					return d.promise;
+				}
 
-      },
-      templateUrl: 'modules/photos/photoBlock.html'
-    };
-  }
-]);
+				// Public API here
+				return {
+					get: function(url) {
+						return parsePhotos(url);
+					}
+				};
+			}])
+
+		.directive('picasa', ['picasaService', function() {
+				return {
+					restrict: 'E',
+					scope: {
+						url: '@'
+					},
+					controller: function($scope, picasaService) {
+						$scope.photos = picasaService.get($scope.url).then(function(photos) {
+							$scope.photos = photos;
+						});
+
+					},
+					templateUrl: 'modules/photos/photoBlock.html'
+				};
+			}
+		]);

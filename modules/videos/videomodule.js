@@ -10,4 +10,6 @@
 'use strict';
 angular.module('videos',[])
 
-.controller('VideoViewCtrl',[ function($scope) {}]);
+.controller('VideoViewCtrl',function($scope) {
+	$scope.hello='hello there video';
+});
